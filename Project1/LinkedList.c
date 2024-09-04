@@ -1,40 +1,147 @@
-/* Declaring all the structs */
-typedef struct Node node;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-struct Node
-{
+/* Define the structs */
+typedef struct Node {
     char *item;
-    node *next
-};
+    struct Node *next;
+} node;
 
-typedef struct List
-{
-    node *head
+typedef struct List {
+    node *head;
 } list;
 
-/* Allocate space for a new list and set its head to NULL
-Returns the created list if successful, NULL otherwise */
-list* CreateList();
+/* Allocate space for a new list and set its head to NULL */
+list* CreateList() {
+    list* newList = (list*) malloc(sizeof(list));
+    if (newList == NULL) {
+        return NULL; // Memory allocation failed
+    }
+    newList->head = NULL; // Initialize head to NULL
+    return newList;
+}
 
-/* Allocates a new node and copies the string from the item to this node
-use malloc, strlen, and strcpy Adds this new node to end of list ll, returns 0 if successful, 
-non- zero otherwise */
-int AddToList(list* ll , char *item );
+/* Allocates a new node and copies the string from the item to this node */
+int AddToList(list* ll, char *item) {
+    if (ll == NULL || item == NULL) {
+        return -1; // Invalid list or item
+    }
 
-/* Removes the head of the list ll (and move the head of ll
-to the next node in the list), extracts the string stored in the head,
-and returns a pointer to this string. Also free the removed head node */
-char* RemoveFromList(list *ll );
+    // Allocate memory for the new node
+    node *newNode = (node*) malloc(sizeof(node));
+    if (newNode == NULL) {
+        return -1; // Memory allocation failed
+    }
 
-/* Prints every string in each node of the list ll. 
-with a newline character at the end of each string*/
-void PrintList(list *ll);
+    // Allocate memory for the item and copy the string
+    newNode->item = (char*) malloc(strlen(item) + 1);
+    if (newNode->item == NULL) {
+        free(newNode);
+        return -1; // Memory allocation failed
+    }
+    strcpy(newNode->item, item);
 
-/* Flushes (clears) the entire list and re-initializes the list
-The passed pointer ll should still point to a valid empty list when this 
-function returns. Any memory allocated to store nodes in the list should be freed*/
-void FlushList(list *ll);
+    newNode->next = NULL;
 
-/* De-allocates all of the data for the list. Ensure all memory allocated
-for the list *ll is freed, including any allocated strings and the list ll itself*/
-void FreeList(list **ll);
+    // Add the new node to the end of the list
+    if (ll->head == NULL) {
+        ll->head = newNode; // If list is empty, new node becomes the head
+    } else {
+        node *current = ll->head;
+        while (current->next != NULL) {
+            current = current->next; // Traverse to the end of the list
+        }
+        current->next = newNode; // Add the new node at the end
+    }
+    return 0; // Success
+}
+
+/* Removes the head of the list and returns a pointer to the item */
+char* RemoveFromList(list *ll) {
+    if (ll == NULL || ll->head == NULL) {
+        return NULL; // List is empty or invalid
+    }
+
+    node *oldHead = ll->head;
+    char *item = oldHead->item;
+
+    ll->head = oldHead->next; // Move the head to the next node
+    free(oldHead); // Free the memory for the removed node
+
+    return item; // Return the item of the removed node
+}
+
+/* Prints every string in each node of the list */
+void PrintList(list *ll) {
+    if (ll == NULL || ll->head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    node *current = ll->head;
+    while (current != NULL) {
+        printf("%s\n", current->item);
+        current = current->next; // Move to the next node
+    }
+}
+
+/* Flushes (clears) the entire list */
+void FlushList(list *ll) {
+    if (ll == NULL) {
+        return; // Invalid list
+    }
+
+    node *current = ll->head;
+    while (current != NULL) {
+        node *temp = current;
+        current = current->next;
+        free(temp->item); // Free the allocated string
+        free(temp); // Free the node
+    }
+
+    ll->head = NULL; // Reinitialize the list to empty
+}
+
+/* De-allocates all of the data for the list */
+void FreeList(list **ll) {
+    if (ll == NULL || *ll == NULL) {
+        return; // Invalid list
+    }
+
+    FlushList(*ll); // Clear all nodes
+
+    free(*ll); // Free the list structure itself
+    *ll = NULL; // Set the pointer to NULL
+}
+
+/* Main function for testing */
+int main() {
+    list* myList = CreateList();
+    if (myList == NULL) {
+        printf("Failed to create list.\n");
+        return 1;
+    }
+
+    AddToList(myList, "Hello");
+    AddToList(myList, "World");
+    AddToList(myList, "This is a test");
+
+    PrintList(myList);
+
+    char* removedItem = RemoveFromList(myList);
+    printf("Removed item: %s\n", removedItem);
+    free(removedItem); // Free the removed item's memory
+
+    PrintList(myList);
+
+    FlushList(myList);
+    PrintList(myList);
+
+    FreeList(&myList);
+    if (myList == NULL) {
+        printf("List successfully freed.\n");
+    }
+
+    return 0;
+}
