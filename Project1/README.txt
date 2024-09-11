@@ -26,6 +26,16 @@ LinkedList.o : The object file created by the Makefile for LinkedList.c
 
 Provide any special instructions to access or run your program.
 
+====================
+TO RUN THIS PROGRAM:
+====================
+cd /home/group10/Documents/Project1
+make
+./ListTest
+
+If needed, to reset, run 
+make clean
+
 ==============
 PROBLEM DESCRIPTION AND REMEDIATION:
 ====================================
