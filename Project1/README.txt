@@ -22,11 +22,15 @@ ListTest.o : The object file created by the Makefile for the ListTest.c
 LinkedList.o : The object file created by the Makefile for LinkedList.c
 
 Provide any special instructions to access or run your program.
-ROOT PASSWORD:
+
 ==============
 PROBLEM DESCRIPTION AND REMEDIATION:
 ====================================
 PART 0: SET UP
+When setting up our virtual machine, we followed the instructions provided in the Ubuntu-guide.docx and  ssh-guide-1.docx. 
+Once our environment was set up, we ran the sudo apt update && sudo apt upgrade to run the updates and then installed
+gcc. We also set up openssh-server to more easily access the virtual machine. We also added to our .ssh config files
+to make it easier to SSH into the VM in the future. 
 ==============
 PART 1: LINKED LIST
 ===================
