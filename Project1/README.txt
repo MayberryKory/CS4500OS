@@ -14,7 +14,7 @@ PASSWORD: encode december presume
 Describe where the files can be found.
 Describe each file and the purpose it serves.
 Provide any special instructions to access or run your program.
-ROOT PASSWORD:
+
 ==============
 PROBLEM DESCRIPTION AND REMEDIATION:
 ====================================
