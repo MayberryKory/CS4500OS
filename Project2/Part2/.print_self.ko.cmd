@@ -1,0 +1,1 @@
+savedcmd_/home/group10/Documents/Project2/part2/print_self.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/group10/Documents/Project2/part2/print_self.ko /home/group10/Documents/Project2/part2/print_self.o /home/group10/Documents/Project2/part2/print_self.mod.o

@@ -1,0 +1,1 @@
+savedcmd_/home/group10/Documents/Project2/part2/print_self.mod := printf '%s\n'   print_self.o | awk '!x[$$0]++ { print("/home/group10/Documents/Project2/part2/"$$0) }' > /home/group10/Documents/Project2/part2/print_self.mod
